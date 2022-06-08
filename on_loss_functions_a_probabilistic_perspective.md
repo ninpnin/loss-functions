@@ -119,10 +119,10 @@ $$
 \\
 = \log\frac{\Gamma(k+r-1)}{\Gamma(r)\Gamma(k-1)} + r \log (1-p) + k \log p
 \\
-= \log\frac{\Gamma(k+r-1)}{\Gamma(r)\Gamma(k-1)} + r \log (1-p) + k \log p
+= \log \Gamma(k+r-1) - \log \Gamma(r) + r \log (1-p) + k \log p + C
+\\
+= \sum_{i=0}^k \log (r+i) + r \log (1-p) + k \log p + C
 $$
-
- 
 
 ### Example: NHL finals
 
