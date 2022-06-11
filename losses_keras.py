@@ -20,6 +20,7 @@ def poisson_loss(y_true, y_pred):
     return - tf.reduce_mean(loss)
 
 def negbin_loss(y_true, y_pred):
+    # Batches
     if len(y_pred.shape) == 2:
         log_r = y_pred[:,0]
         logit_p = y_pred[:,1]
@@ -30,6 +31,7 @@ def negbin_loss(y_true, y_pred):
         loss = dist.log_prob(y_true)
         return - tf.reduce_mean(loss)
 
+    # Single observations
     elif len(y_pred.shape) == 1:
         log_r = y_pred[0]
         logit_p = y_pred[1]
