@@ -52,7 +52,6 @@ The Gamma distribution has the following point probability function
 
 $$
 p(x \mid \alpha, \beta) =\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1} e^{-\beta x}
-
 $$
 
 which has the following logarithmic form
