@@ -1,5 +1,7 @@
 # On loss functions - a probabilistic perspective
 
+_Check out the [code](losses_keras.py) too!_
+
 ## What is a loss function and what does it have to do with distributions?
 
 In a practical sense, loss functions quantify the discrepancy of a model, a function $\hat f : X \to Y$, compared to the true data, which lies in $X \times Y$. It quantifies the difference between the data point $y \in Y$ in the codomain and the model prediction $\hat y \in Y$ as a real number that can be differentiated with respect to the model parameters.
