@@ -44,6 +44,35 @@ i.e. the mean squared error.
 
 Indeed, mean squared error is the most commonly used loss function in neural networks for regression tasks. Implicitly, we are performing the mean regression on a Normal distribution in the codomain, assuming homoscedasticity. Usually, we just don't estimate the variance when training neural networks–but we could and can if it's useful. We can also relax the assumption of homoscedasticity if we want a non-static codomain variance wrt. the domain.
 
+## Gamma distributed codomain
+
+Sometimes, the codomain is best represented by real numbers, but is restricted to positive numbers. In such cases, the Gamma distribution is a natural choice.
+
+The Gamma distribution has the following point probability function
+
+$$
+p(x \mid \alpha, \beta) =\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1} e^{-\beta x}
+
+$$
+
+which has the following logarithmic form
+
+$$
+\log p(x \mid \alpha, \beta) = \alpha \log\beta - \log{\Gamma(\alpha)}+ (\alpha-1)\log(x)- \beta x
+$$
+
+When estimating the parameters, one constant term can be omitted, and the loss function becomes
+
+$$
+\mathcal L(\hat \alpha, \hat \beta; y) =  \hat \alpha \log \hat \beta - \log{\Gamma(\hat \alpha)}+ \hat \alpha\log(y)- \hat \beta y
+$$
+
+Moreover, we want to transform the inputs of the neural network into the correct space, so that the requirements $\alpha, \beta$ are fulfilled. The resulting loss function is then
+
+$$
+\mathcal L(\hat y_1, \hat y_2; y) = \hat y_2 \exp (\hat y_1) - \log{\Gamma(\exp( \hat y_1))}+ \exp( \hat y_1)\log(y)- \exp( \hat y_2) y
+$$
+
 ## Bernoulli distributed codomain
 
 The Bernoulli distribution is univariate discrete, and has the support $k \in \{0, 1\}.$ Such a distribution can possibly only have one degree of freedom. We can use the success probability parametrization, though others are more convenient when actually implementing the distribution

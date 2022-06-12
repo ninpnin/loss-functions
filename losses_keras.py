@@ -16,6 +16,19 @@ def normal_heteroscedastic(y_true, y_pred):
     loss = dist.log_prob(y_true)
     return - tf.reduce_mean(loss)
 
+# Gamma loss
+def gamma_loss(y_true, y_pred):
+    if len(y_pred.shape) == 2:
+        alpha_pred = tf.math.exp(y_pred[:,0])
+        beta_pred = tf.math.exp(y_pred[:, 1])
+    elif len(y_pred.shape) == 1:
+        alpha_pred = tf.math.exp(y_pred[0])
+        beta_pred = tf.math.exp(y_pred[1])
+
+    dist = tfd.Gamma(concentration=alpha_pred, rate=beta_pred)
+    loss = dist.log_prob(y_true)
+    return - tf.reduce_mean(loss)
+
 # Poisson loss
 def poisson_loss(y_true, y_pred):
     mu_pred = tf.math.exp(y_pred)
@@ -57,6 +70,17 @@ def main():
     y_pred = np.random.randn(3,2)
     y_true = np.random.randn(3)
     loss = normal_heteroscedastic(y_true, y_pred)
+    print(loss)
+
+    # Test Gamma loss
+    y_pred = np.random.randn(2)
+    y_true = tf.math.exp(np.random.randn(1)-1)
+    loss = gamma_loss(y_true, y_pred)
+    print(loss)
+
+    y_pred = np.random.randn(3,2)
+    y_true = tf.math.exp(np.random.randn(3)-1)
+    loss = gamma_loss(y_true, y_pred)
     print(loss)
 
     # Test Poisson loss
