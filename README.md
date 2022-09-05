@@ -153,13 +153,12 @@ $$
 Per definition, $r$ is a natural number. The definition can however be extended so that $r$ is a positive real number instead. This can be achieved using the Gamma function instead of the factorial when calculating the combinatorial coefficient
 
 $$
-\log{k + r - 1 \choose k} + r \log (1-p) + k \log p
-\\
-= \log\frac{\Gamma(k+r-1)}{\Gamma(r)\Gamma(k-1)} + r \log (1-p) + k \log p
-\\
-= \log \Gamma(k+r-1) - \log \Gamma(r) + r \log (1-p) + k \log p + C
-\\
-= \sum_{i=0}^k \log (r+i) + r \log (1-p) + k \log p + C
+\begin{aligned}
+& \log{k + r - 1 \choose k} + r \log (1-p) + k \log p \\
+&= \log\frac{\Gamma(k+r-1)}{\Gamma(r)\Gamma(k-1)} + r \log (1-p) + k \log p \\
+&= \log \Gamma(k+r-1) - \log \Gamma(r) + r \log (1-p) + k \log p + C \\
+&= \sum_{i=0}^k \log (r+i) + r \log (1-p) + k \log p + C
+\end{aligned}
 $$
 
 ### Example: NHL finals
