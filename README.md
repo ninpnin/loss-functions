@@ -40,7 +40,7 @@ $$
 which, in terms of maximization with respect to $\mu$, is equivalent to
 
 $$
-- \sum_{i=1}^N (y_i-f(x_i; \theta))^2
+-\sum_{i=1}^N (y_i-f(x_i; \theta))^2
 $$
 
 i.e. the mean squared error.
