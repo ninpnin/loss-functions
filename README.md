@@ -19,9 +19,10 @@ Oftentimes, the codomain is best representated as an unrestricted real space. Be
 The Normal distribution has the following point probability
 
 $$
-p(x \mid \mu, \sigma) =\frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{1}{2 \sigma^2}(x-\mu)^2}
-\\
-\log p(x \mid \mu, \sigma) = -\frac{1}{2 \sigma^2}(x-\mu)^2 - \log \sigma + C
+\begin{aligned}
+p(x \mid \mu, \sigma) &=\frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{1}{2 \sigma^2}(x-\mu)^2} \\
+\log p(x \mid \mu, \sigma) &= -\frac{1}{2 \sigma^2}(x-\mu)^2 - \log \sigma + C
+\end{aligned}
 $$
 
 We can regress this from data with any function $[\mu(x), \sigma(x)] = f(x; \theta)$.
@@ -29,9 +30,11 @@ We can regress this from data with any function $[\mu(x), \sigma(x)] = f(x; \the
 It is common to assume homoscedasticity when training a regression neural network. This yields then 
 
 $$
-p(x \mid \mu, \sigma) = \sum_{i=1}^N -\frac{1}{2 \sigma(x_i)^2}(y_i -\mu(x_i))^2 + C
-\\ = \sum_{i=1}^N -\frac{1}{2 \sigma_0^2}(y_i-\mu(x_i))^2 + C
-\\ = -\frac{1}{2 \sigma_0^2} \sum_{i=1}^N (y_i -\mu(x_i))^2 + C
+\begin{aligned}
+p(x \mid \mu, \sigma) &= \sum_{i=1}^N -\frac{1}{2 \sigma(x_i)^2}(y_i -\mu(x_i))^2 + C \\
+&= \sum_{i=1}^N -\frac{1}{2 \sigma_0^2}(y_i-\mu(x_i))^2 + C \\
+&= -\frac{1}{2 \sigma_0^2} \sum_{i=1}^N (y_i -\mu(x_i))^2 + C
+\end{aligned}
 $$
 
 which, in terms of maximization with respect to $\mu$, is equivalent to
@@ -93,10 +96,12 @@ $$
 The Poisson distribution has the support $k \in \{0, 1, 2, \dots\}$. 
 
 $$
-\log(P(k \mid \lambda(x)) = \log(P(k \mid e^{f(x)}) \\
-= \log[\frac{\lambda(x)^k e^{-\lambda(x)}}{k!}] \\
-= k \log[\lambda(x)] - \lambda(x) - \log(k!) \\
-= k f(x) - e^{f(x)} - \log(k!)
+\begin{aligned}
+\log(P(k \mid \lambda(x)) &= \log(P(k \mid e^{f(x)}) \\
+&= \log[\frac{\lambda(x)^k e^{-\lambda(x)}}{k!}] \\
+&= k \log[\lambda(x)] - \lambda(x) - \log(k!) \\
+&= k f(x) - e^{f(x)} - \log(k!)
+\end{aligned}
 $$
 
 The last term is invariant with respect to the distribution parameters, and can be thus omitted during parameter regression. We get a loss function
@@ -108,10 +113,11 @@ $$
 Differentiating this in the plain codomain, we get
 
 $$
-\frac{\partial \mathcal L(y, \hat y)}{\partial \hat y} = 0
-\\
-\implies y -  e^{\hat y(x)} = 0 \\
-\implies y = e^{\hat y(x)}
+\begin{aligned}
+&\frac{\partial \mathcal L(y, \hat y)}{\partial \hat y} = 0 \\
+&\implies y -  e^{\hat y(x)} = 0 \\
+&\implies y = e^{\hat y(x)}
+\end{aligned}
 $$
 
 In other words, the loss has a stationary point when the prediction equals the true value. On the other hand, both as $\hat y (x) \to \infty$ and $\hat y (x) \to -\infty$, the loss approaches infinity ($y$ is always positive). Thus, the loss is minimized when the prediction equals the observed value.
@@ -121,12 +127,13 @@ In other words, the loss has a stationary point when the prediction equals the t
 The Binomial distribution has the following probability mass function
 
 $$
-P(k \mid p) = {n \choose k} p^{k}(1-p)^{n-k}
-\\
-\log P(k \mid p) = k \log p + (n-k) \log (1-p) + C
+\begin{aligned}
+P(k \mid p) &= {n \choose k} p^{k}(1-p)^{n-k} \\
+\log P(k \mid p) &= k \log p + (n-k) \log (1-p) + C
+\end{aligned}
 $$
 
-### Negative binomially distributed codomain
+## Negative binomially distributed codomain
 
 The Negative binomial distribution has the following probability mass function
 
@@ -137,9 +144,10 @@ $$
 Its logarithm is
 
 $$
-\log P(k \mid r, p) = \log \left({k + r - 1 \choose k} \cdot (1-p)^r p^k \right)
-\\
-= \log{k + r - 1 \choose k} + r \log (1-p) + k \log p
+\begin{aligned}
+\log P(k \mid r, p) &= \log \left({k + r - 1 \choose k} \cdot (1-p)^r p^k \right) \\
+&= \log{k + r - 1 \choose k} + r \log (1-p) + k \log p
+\end{aligned}
 $$
 
 Per definition, $r$ is a natural number. The definition can however be extended so that $r$ is a positive real number instead. This can be achieved using the Gamma function instead of the factorial when calculating the combinatorial coefficient
