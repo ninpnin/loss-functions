@@ -1,22 +1,20 @@
 # On loss functions - a probabilistic perspective
 
-_Check out the [code](losses_keras.py) too!_
+_Check out the [code](probabilistic_loss_functions/losses.py) too!_
 
 ## What is a loss function and what does it have to do with distributions?
 
-In a practical sense, loss functions quantify the discrepancy of a model, a function $\hat f : X \to Y$, compared to the true data, which lies in $X \times Y$. It quantifies the difference between the data point $y \in Y$ in the codomain and the model prediction $\hat y \in Y$ as a real number that can be differentiated with respect to the model parameters.
+Loss functions quantify the discrepancy of a model, a function $\hat f : X \mapsto Y$, compared to the true data, which lies in $X \times Y$. It quantifies the difference between the data point $y \in Y$ in the codomain and the model prediction $\hat y \in Y$ as a real number that can be differentiated with respect to the model parameters, creating a map $\mathcal L : Y \times Y \mapsto \mathbb R$.
 
-However, the data usually comes from a non-determinsitic process. This means that the codomain is a space of probability distributions given some input data in $x \in X$, rather than a space of eg. real or natural numbers. Thus, a suitable model would also yield probability distributions given the input data $x \in X$.
+However, the data usually comes from a non-determinsitic process. This means that the codomain is a space of probability distributions $D \in \mathcal D$ given some input data in $x \in X$, rather than a space of eg. real or natural numbers. Thus, a suitable model would also yield probability distributions $\mathcal D$ given the input data $x \in X$. However, we need to restrict the selection of distributions to a family $\mathcal D_\Theta = \{D_\theta \mid \theta \in \Theta \}$ parametrized by some $\theta \in \Theta$. Then, we can formulate a probabilistic loss function $\mathcal L : Y \times \Theta \mapsto \mathbb R$, instead of a deterministic loss function $\mathcal L : Y \times Y \mapsto \mathbb R$.
 
-In a regression task . This can be thought of as a reasonable output value – perhaps the mean or the median of the output distribution.
-
-On the other hand, this is equivalent to minimizing the KL divergence between the estimated probability distribution and the empirical distribution we obtain from the data.
+Similarly to deterministic loss functions, we then go on to minimize the loss function for the observed data points with respect to the model parameters. This is equivalent to minimizing the _Kullback–Leibler divergence_ between the estimated probability distribution and the empirical distribution we obtain from the data. In this sense, a probabilistic loss function can be written as $\mathcal L : \mathcal D \times \mathcal D_\Theta \mapsto \mathbb R$.
 
 ## Normally distributed codomain
 
-Oftentimes, the codomain is best representated as an unrestricted real space. Be it heights of people, salaries, velocities, time or countless other things, real numbers are the best way to capture that quantity. Moreover, a common way to approach such a codomain is to model it via the Normal distribution.
+Oftentimes, the codomain is best representated as a random variable in an unrestricted real space. Be it temperatures, salaries, velocities, time or countless other things, real numbers nicely capture quantities that vary without upper or lower bounds and with an arbitrary precision. Moreover, a common way to approach such a codomain is to model it via the normal distribution.
 
-The Normal distribution has the following point probability
+The normal distribution has the following point probability
 
 $$
 \begin{aligned}
@@ -25,9 +23,9 @@ p(x \mid \mu, \sigma) &=\frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{1}{2 \sigma^2}(
 \end{aligned}
 $$
 
-We can regress this from data with any function $[\mu(x), \sigma(x)] = f(x; \theta)$.
+We can regress this from data with an arbitrary function of form $[\mu(x), \sigma(x)] = f(x; \theta)$.
 
-It is common to assume homoscedasticity when training a regression neural network. This yields then 
+It is common to implicitly assume homoscedasticity when training a regression neural network. This yields then
 
 $$
 \begin{aligned}
@@ -45,7 +43,7 @@ $$
 
 i.e. the mean squared error.
 
-Indeed, mean squared error is the most commonly used loss function in neural networks for regression tasks. Implicitly, we are performing the mean regression on a Normal distribution in the codomain, assuming homoscedasticity. Usually, we just don't estimate the variance when training neural networks–but we could and can if it's useful. We can also relax the assumption of homoscedasticity if we want a non-static codomain variance wrt. the domain.
+Indeed, mean squared error is the most commonly used loss function in neural networks for regression tasks. Implicitly, we are performing the mean regression on a normal distribution in the codomain, assuming homoscedasticity. Usually, we just don't estimate the variance when training neural networks–but we could and can if it's useful. We can also relax the assumption of homoscedasticity if we want a non-static codomain variance wrt. the domain.
 
 ## Gamma distributed codomain
 
@@ -90,6 +88,8 @@ K \log p + (1-K) \log (1-p)
 $$
 
 ## Categorically distributed codomain
+
+Coming soon.
 
 ## Poisson distributed codomain
 
@@ -169,3 +169,5 @@ $$
 $$
 
 ## Bi- and multivariate codomains
+
+Coming soon.
