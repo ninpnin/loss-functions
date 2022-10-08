@@ -60,6 +60,30 @@ def negbin_loss(y_true, y_pred):
         loss = dist.log_prob(y_true)
         return - tf.reduce_mean(loss)
 
+#  Negative Binomial loss
+def beta_loss(y_true, y_pred):
+    # Batches
+    if len(y_pred.shape) == 2:
+        log_alpha = y_pred[:,0]
+        log_beta = y_pred[:,1]
+
+        alpha = tf.math.exp(log_alpha)
+        beta = tf.math.exp(log_beta)
+        dist = tfd.Beta(alpha, beta)
+        loss = dist.log_prob(y_true)
+        return - tf.reduce_mean(loss)
+
+    # Single observations
+    elif len(y_pred.shape) == 1:
+        log_alpha = y_pred[0]
+        log_beta = y_pred[1]
+
+        alpha = tf.math.exp(log_alpha)
+        beta = tf.math.exp(log_beta)
+        dist = tfd.Beta(alpha, beta)
+        loss = dist.log_prob(y_true)
+        return - tf.reduce_mean(loss)
+
 def main():
     # Test Normal heteroscedastic loss
     y_pred = np.random.randn(2)
@@ -108,6 +132,18 @@ def main():
 
     loss = negbin_loss(y_true, y_pred)
     print(loss)
+
+    # Test Beta loss
+    y_pred = np.random.randn(2)
+    y_true = tf.math.sigmoid(np.random.randn(1))
+    loss = beta_loss(y_true, y_pred)
+    print(loss)
+
+    y_pred = np.random.randn(3,2)
+    y_true = tf.math.sigmoid(np.random.randn(3))
+    loss = beta_loss(y_true, y_pred)
+    print(loss)
+
 
 if __name__ == '__main__':
     main()
