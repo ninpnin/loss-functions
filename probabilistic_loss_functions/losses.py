@@ -5,6 +5,19 @@ import numpy as np
 
 # Heteroscedastic Normal distribution loss
 def normal_heteroscedastic(y_true, y_pred):
+    """
+    Calculate the loss for a Gaussian observation or batch with heteroscedasticity.
+    
+    Args:
+        y_true (tf.Tensor or np.array): True observed value, float(s). Shape (1), (N) for single data points and batches, respectively.
+        y_pred (tf.Tensor or np.array): Predicted distribution parameters. Shape (2), (N, 2) for single data points and batches, respectively.
+            Projected to correct range from [-inf, inf].
+    
+    Returns:
+        Log probability as 1D tensor as tf.EagerTensor
+    """
+
+
     if len(y_pred.shape) == 2:
         mu_pred = y_pred[:,0]
         sigma_pred = tf.math.exp(y_pred[:, 1])
@@ -18,6 +31,18 @@ def normal_heteroscedastic(y_true, y_pred):
 
 # Gamma loss
 def gamma_loss(y_true, y_pred):
+    """
+    Calculate the loss for a Gamma distributed observation or batch.
+    
+    Args:
+        y_true (tf.Tensor or np.array): True observed value, nonnegative float(s). Shape (1), (N) for single data points and batches, respectively.
+        y_pred (tf.Tensor or np.array): Predicted distribution parameters. Shape (2), (N, 2) for single data points and batches, respectively.
+            Projected to correct range from [-inf, inf].
+    
+    Returns:
+        Log probability as 1D tensor as tf.EagerTensor
+    """
+
     if len(y_pred.shape) == 2:
         alpha_pred = tf.math.exp(y_pred[:,0])
         beta_pred = tf.math.exp(y_pred[:, 1])
@@ -31,6 +56,18 @@ def gamma_loss(y_true, y_pred):
 
 # Poisson loss
 def poisson_loss(y_true, y_pred):
+    """
+    Calculate the loss for a Poisson distributed observation or batch.
+    
+    Args:
+        y_true (tf.Tensor or np.array): True observed value, nonnegative int(s). Shape (1), (N) for single data points and batches, respectively.
+        y_pred (tf.Tensor or np.array): Predicted distribution parameters. Shape (1), (N, 1) for single data points and batches, respectively.
+            Projected to correct range from [-inf, inf].
+    
+    Returns:
+        Log probability as 1D tensor as tf.EagerTensor
+    """
+
     mu_pred = tf.math.exp(y_pred)
     dist = tfd.Poisson(rate=mu_pred)
     loss = dist.log_prob(y_true)
@@ -38,6 +75,18 @@ def poisson_loss(y_true, y_pred):
 
 #  Negative Binomial loss
 def negbin_loss(y_true, y_pred):
+    """
+    Calculate the loss for a Negative Binomial distributed observation or batch.
+    
+    Args:
+        y_true (tf.Tensor or np.array): True observed value, nonnegative int(s). Shape (1), (N) for single data points and batches, respectively.
+        y_pred (tf.Tensor or np.array): Predicted distribution parameters. Shape (2), (N, 2) for single data points and batches, respectively.
+            Projected to correct range from [-inf, inf].
+    
+    Returns:
+        Log probability as 1D tensor as tf.EagerTensor
+    """
+
     # Batches
     if len(y_pred.shape) == 2:
         log_r = y_pred[:,0]
@@ -60,8 +109,20 @@ def negbin_loss(y_true, y_pred):
         loss = dist.log_prob(y_true)
         return - tf.reduce_mean(loss)
 
-#  Negative Binomial loss
+#  Beta loss
 def beta_loss(y_true, y_pred):
+    """
+    Calculate the loss for a Beta distributed observation or batch.
+    
+    Args:
+        y_true (tf.Tensor or np.array): True observed value, float(s) between 0.0 and 1.0. Shape (1), (N) for single data points and batches, respectively.
+        y_pred (tf.Tensor or np.array): Predicted distribution parameters. Shape (2), (2, N) for single data points and batches, respectively.
+            Projected to correct range from [-inf, inf].
+    
+    Returns:
+        Log probability as 1D tensor as tf.EagerTensor
+    """
+
     # Batches
     if len(y_pred.shape) == 2:
         log_alpha = y_pred[:,0]
